@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class Rocket : MonoBehaviour
 {
+    Rigidbody rigidBody;
+
+    float z;
+    float x;
+    float y;
+
+    [SerializeField] float rotationSpeed = 50.0f;
+    [SerializeField] float thrustSpeed = 10f;
+    
     // Start is called before the first frame update
     void Start()
     {
-        
+        rigidBody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -21,18 +30,26 @@ public class Rocket : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.Space))
         {
-            print("space pressed!");
+            // print("Thrusting!");
+            rigidBody.AddRelativeForce(Vector3.up * thrustSpeed);
         }
+
+        rigidBody.freezeRotation = true; 
 
         if (Input.GetKey(KeyCode.A))
         {
-            print("Turn left!");
+            // print("Turn left!");
+            transform.Rotate(Vector3.forward * Time.deltaTime * rotationSpeed);
         }
-
-        if (Input.GetKey(KeyCode.D))
+        else 
         {
-            print("Turn right!");
-        }
+            if((Input.GetKey(KeyCode.D)))
+            {
+                // print("Turn right!");
+                transform.Rotate(-Vector3.forward * Time.deltaTime * rotationSpeed);
+            }
 
+        }
+        rigidBody.freezeRotation = false;
     }
 }
