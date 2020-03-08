@@ -6,6 +6,7 @@ TagManager:
   tags:
   - friendly
   - fuel
+  - progress
   layers:
   - Default
   - TransparentFX
