@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class Rocket : MonoBehaviour
@@ -29,19 +28,36 @@ public class Rocket : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         print("Collided!");
-        switch(collision.gameObject.tag)
+
+        switch (collision.gameObject.tag)
         {
             case "friendly":
                 // do nothing
-                print("Friendly");
+                print("friendly");
                 break;
             case "fuel":
                 // kill
                 print("Fuel");
                 break;
+            case "progress":
+                print("Progress");
+                // kill
+                switch (SceneManager.GetActiveScene().buildIndex)
+                {
+                    case (0):
+                        SceneManager.LoadScene(1);
+                        break;
+                    case (1):
+                        SceneManager.LoadScene(2);
+                        break;
+                    default:
+                        SceneManager.LoadScene(0);
+                        break;
+                }
+                break;
             default:
                 // kill
-                print("Explode");
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                 break;
         }
 
