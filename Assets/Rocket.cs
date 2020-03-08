@@ -26,6 +26,27 @@ public class Rocket : MonoBehaviour
         ProcessInput();
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        print("Collided!");
+        switch(collision.gameObject.tag)
+        {
+            case "friendly":
+                // do nothing
+                print("Friendly");
+                break;
+            case "fuel":
+                // kill
+                print("Fuel");
+                break;
+            default:
+                // kill
+                print("Explode");
+                break;
+        }
+
+    }
+
     private void ProcessInput()
     {
         if(Input.GetKey(KeyCode.Space))
