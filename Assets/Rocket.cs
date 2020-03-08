@@ -11,6 +11,8 @@ public class Rocket : MonoBehaviour
 
     [SerializeField] float rotationSpeed = 50.0f;
     [SerializeField] float thrustSpeed = 10f;
+
+    bool controlsDisabled = false;
     
     // Start is called before the first frame update
     void Start()
@@ -22,7 +24,7 @@ public class Rocket : MonoBehaviour
     void Update()
     {
         // print("Update");
-        ProcessInput();
+        if(!controlsDisabled) ProcessInput();
     }
 
     void OnCollisionEnter(Collision collision)
@@ -45,22 +47,44 @@ public class Rocket : MonoBehaviour
                 switch (SceneManager.GetActiveScene().buildIndex)
                 {
                     case (0):
-                        SceneManager.LoadScene(1);
+                        Invoke("LoadNextScene", 2);
                         break;
                     case (1):
-                        SceneManager.LoadScene(2);
+                        Invoke("LoadNextScene", 2);
                         break;
                     default:
-                        SceneManager.LoadScene(0);
+                        Invoke("LoadNextScene", 2);
                         break;
                 }
                 break;
             default:
                 // kill
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                controlsDisabled = true;
+                Invoke("ResetLevel", 2);
                 break;
         }
 
+    }
+
+    private void LoadNextScene()
+    {
+        switch (SceneManager.GetActiveScene().buildIndex)
+        {
+            case (0):
+                SceneManager.LoadScene(1);
+                break;
+            case (1):
+                SceneManager.LoadScene(2);
+                break;
+            default:
+                SceneManager.LoadScene(0);
+                break;
+        }
+    }
+
+    private void ResetLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void ProcessInput()
